@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  gpu-notebook:
+    build: 
+      context: ./docker-stacks/base-notebook
+      args: 
+        ROOT_CONTAINER: nvidia/cuda:11.4.2-cudnn8-runtime-ubuntu20.04
+    image: gpu-notebook
+    container_name: gpu-notebook
+    ports:
+      - 8888:8888
+    volumes:
+      - gpu-notebook-data:/home/jovyan
+      - ./kernels:/usr/share/jupyter/kernels
+    environment:
+      - USE_HTTPS=yes
+      - JUPYTER_ENABLE_LAB=yes
+      - PASSWORD=123
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  gpu-notebook-data:
