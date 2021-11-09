@@ -1,22 +1,21 @@
 version: "3.9"
 
 services:
-  gpu-notebook:
-    build: 
-      context: ./docker-stacks/base-notebook
-      args: 
-        ROOT_CONTAINER: nvidia/cuda:11.4.2-cudnn8-runtime-ubuntu20.04
-    image: gpu-notebook
-    container_name: gpu-notebook
+  gpupyter:
+    build:
+      context: .
+      args:
+        CUDA_BASE: nvidia/cuda:11.4.2-base-ubuntu20.04
+        USER: gilles
+        PASSWORD: 123
+    image: gpupyter
+    container_name: gpupyter
+    restart: unless-stopped
     ports:
       - 8888:8888
     volumes:
-      - gpu-notebook-data:/home/jovyan
-      - ./kernels:/usr/share/jupyter/kernels
-    environment:
-      - USE_HTTPS=yes
-      - JUPYTER_ENABLE_LAB=yes
-      - PASSWORD=123
+      - gpupyter-data:/home/gilles
+      - gpupyter-envs:/opt/conda
     deploy:
       resources:
         reservations:
@@ -26,4 +25,5 @@ services:
               capabilities: [gpu]
 
 volumes:
-  gpu-notebook-data:
+  gpupyter-data:
+  gpupyter-envs:
