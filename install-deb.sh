@@ -24,12 +24,12 @@ echo "deb http://developer.download.nvidia.com/compute/cuda/repos/$distribution/
 curl -fsSL https://nvidia.github.io/nvidia-docker/gpgkey | apt-key add -
 curl -fsSL https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | tee /etc/apt/sources.list.d/nvidia-docker.list
 
+# Install packages
 apt update
 apt install -y \
     linux-headers-$(uname -r) \
-    cuda-drivers
+    cuda-drivers \
     nvidia-docker2
 
 # Restart Docker daemon
 systemctl restart docker
-
