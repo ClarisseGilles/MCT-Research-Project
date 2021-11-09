@@ -59,7 +59,6 @@ RUN mamba install --quiet --yes \
 
 # Copy start script
 COPY start.sh /usr/local/bin/start.sh
-RUN chmod +x /usr/local/bin/start.sh
 
 # Copy JupyterLab config into container
 COPY jupyter_server_config.py /etc/jupyter/
