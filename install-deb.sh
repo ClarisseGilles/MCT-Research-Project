@@ -3,6 +3,7 @@
 # Install script for Debian/Ubuntu
 
 # Install curl
+apt update
 apt install -y curl
 
 # Download and run Docker install script
@@ -12,12 +13,6 @@ curl -fsSL https://get.docker.com | sh -
 curl -sL "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
-# Setup the CUDA network repository
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID | sed -e 's/\.//g')
-curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/$distribution/x86_64/cuda-$distribution.pin -o /etc/apt/preferences.d/cuda-repository-pin-600
-apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/$distribution/x86_64/7fa2af80.pub
-echo "deb http://developer.download.nvidia.com/compute/cuda/repos/$distribution/x86_64 /" | tee /etc/apt/sources.list.d/cuda.list
-
 # Setup the Nvidia Docker repository
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
 curl -fsSL https://nvidia.github.io/nvidia-docker/gpgkey | apt-key add -
@@ -25,10 +20,7 @@ curl -fsSL https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.li
 
 # Install packages
 apt update
-apt install -y \
-    linux-headers-$(uname -r) \
-    cuda-drivers \
-    nvidia-docker2
+apt install -y nvidia-docker2
 
 # Restart Docker daemon
 systemctl restart docker

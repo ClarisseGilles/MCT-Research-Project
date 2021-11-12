@@ -11,6 +11,8 @@ services:
     image: gpupyter
     container_name: gpupyter
     restart: unless-stopped
+    environment:
+      - PASSWORD=sha1:d5710a7749b6:b374d929d2468d5f6524b3925fe73591ed116500
     ports:
       - 8888:8888
     volumes:
@@ -27,3 +29,4 @@ services:
 volumes:
   gpupyter-data:
   gpupyter-envs:
+    
