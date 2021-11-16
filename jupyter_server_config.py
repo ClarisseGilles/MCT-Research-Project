@@ -13,6 +13,9 @@ c.ServerApp.port = 8888
 c.ServerApp.open_browser = False
 c.KernelSpecManager.ensure_native_kernel = False
 
+# Set Lab password
+if "PASSWORD" in os.environ: c.ServerApp.password = os.environ["PASSWORD"]
+
 # https://github.com/jupyter/notebook/issues/3130
 c.FileContentsManager.delete_to_trash = False
 
@@ -58,8 +61,3 @@ distinguished_name = req_distinguished_name
     # Restrict access to the file
     os.chmod(pem_file, stat.S_IRUSR | stat.S_IWUSR)
     c.ServerApp.certfile = pem_file
-
-# Change default umask for all subprocesses of the notebook server if set in
-# the environment
-if "NB_UMASK" in os.environ:
-    os.umask(int(os.environ["NB_UMASK"], 8))

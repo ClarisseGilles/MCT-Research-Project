@@ -5,9 +5,7 @@ services:
     build:
       context: .
       args:
-        CUDA_BASE: nvidia/cuda:11.4.2-base-ubuntu20.04
         USER: gilles
-        PASSWORD: 123
     image: gpupyter
     container_name: gpupyter
     restart: unless-stopped
