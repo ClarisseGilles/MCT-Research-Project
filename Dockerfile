@@ -13,13 +13,14 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt update -y && apt install -y --no-install-recommends \
     ca-certificates \
-    tini \
     curl \
+    tini \
     && apt clean && rm -rf /var/lib/apt/lists/*
 
 ENV CONDA_DIR="/opt/conda"
 ENV LANG="C.UTF-8" LC_ALL="C.UTF-8"
 ENV PATH="${CONDA_DIR}/bin:${PATH}"
+ENV SHELL="/bin/bash"
 
 # Add call to conda init script see: https://stackoverflow.com/a/58081608/4413446
 # Add new user, create conda dir and set new user as owner
