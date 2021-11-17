@@ -24,8 +24,7 @@ ENV SHELL="/bin/bash"
 
 # Add call to conda init script see: https://stackoverflow.com/a/58081608/4413446
 # Add new user, create conda dir and set new user as owner
-RUN echo 'eval "$(command conda shell.bash hook 2> /dev/null)"' >> /etc/skel/.bashrc \
-    && useradd -ms /bin/bash "${USER}"\
+RUN useradd -ms /bin/bash "${USER}"\
     && mkdir -p "${CONDA_DIR}" \
     && chown "${USER}" "${CONDA_DIR}"
 
@@ -39,6 +38,7 @@ RUN if [ -z "${MAMBAFORGE_VERSION}" ]; then MAMBAFORGE_VERSION=$(curl -s "https:
     "https://github.com/conda-forge/miniforge/releases/download/${MAMBAFORGE_VERSION}/Mambaforge-Linux-$(uname -m).sh" \
     && /bin/bash /tmp/miniforge.sh -b -f -p "${CONDA_DIR}" \
     && rm /tmp/miniforge.sh \
+    && mamba init \
     && conda config --system --set auto_update_conda false \
     && conda update -qy --all \
     && conda clean -afy \
@@ -54,11 +54,12 @@ RUN mamba install -qy \
     && mamba clean -afy \
     && find "${CONDA_DIR}" -follow -type f \( -iname '*.a' -o -iname '*.pyc' -o -iname '*.js.map' \) -delete
 
-# Copy JupyterLab config into container
+# Copy JupyterLab config and default settings overrides into container
 COPY jupyter_server_config.py /etc/jupyter/
+COPY overrides.json "${CONDA_DIR}/share/jupyter/lab/settings/overrides.json"
 
 EXPOSE 8888
 
 # Configure container startup
 ENTRYPOINT ["tini", "-g", "--"]
-CMD ["jupyter", "lab"]
+CMD ["jupyter", "lab", "--debug"]

@@ -1,0 +1,17 @@
+{
+    "@jupyterlab/apputils-extension:themes": {
+        "theme": "JupyterLab Dark"
+    },
+    "@mamba-org/gator-lab:plugin": {
+        "types": {
+            "Python 3": [
+                "python=3",
+                "ipykernel"
+            ],
+            "R": [
+                "r-base",
+                "r-essentials"
+            ]
+        }
+    }
+}

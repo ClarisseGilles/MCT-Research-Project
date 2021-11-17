@@ -1,6 +1,3 @@
-# Copyright (c) Jupyter Development Team.
-# Distributed under the terms of the Modified BSD License.
-
 from jupyter_core.paths import jupyter_data_dir
 import subprocess
 import os
@@ -11,7 +8,6 @@ c = get_config()  # noqa: F821
 c.ServerApp.ip = "0.0.0.0"
 c.ServerApp.port = 8888
 c.ServerApp.open_browser = False
-c.KernelSpecManager.ensure_native_kernel = False
 
 # Set Lab password
 if "PASSWORD" in os.environ: c.ServerApp.password = os.environ["PASSWORD"]
