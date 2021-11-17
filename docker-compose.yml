@@ -7,7 +7,6 @@ services:
       args:
         USER: gilles
     image: gpupyter
-    container_name: gpupyter
     restart: unless-stopped
     environment:
       - PASSWORD=sha1:d5710a7749b6:b374d929d2468d5f6524b3925fe73591ed116500
@@ -21,8 +20,8 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              count: all
               capabilities: [gpu]
+    shm_size: 8G
 
 volumes:
   gpupyter-data:
